@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 import {useQuery, gql} from '@apollo/client';
-
+import react , {useState} from 'react';
 
 export const AnimeList = gql`
-{
-  Page {
+query Query($page: Int) {
+  Page(page: $page) {
     media {
       siteUrl
       title {
@@ -20,14 +20,18 @@ export const AnimeList = gql`
       volumes
       episodes
     }
-  
   }
 }
+
 
 `;
 
 function App() {
-  const {loading, error, data} = useQuery(AnimeList);
+  const [page, setPage] = useState(1);
+  const {loading, error, data} = useQuery(AnimeList , {  variables: { "page" : page } });
+  const NextPage = () => {
+    setPage(page+1);
+  }
 
   console.log(data?.Page?.media[0]); 
   if(loading) return(<> Loading</>);
@@ -49,6 +53,11 @@ function App() {
   <hr width="75%"/>
  </>
    ))}
+   <div className="buttonContainer">
+    { page != 1 && <button> Previous Page</button> } 
+     <div className="pageText"> {page}</div>
+     <button onClick={NextPage}>  Next Page </button> 
+   </div>
    </div>);
 }
 
