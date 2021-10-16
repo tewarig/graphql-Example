@@ -1,25 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import {useQuery, gql} from '@apollo/client';
+
+
+export const AnimeList = gql`
+{
+  Page {
+    media {
+      siteUrl
+      title {
+        english
+        native
+      }
+      description
+    }
+  }
+}
+`;
 
 function App() {
+  const {loading, error, data} = useQuery(AnimeList);
+
+  console.log(data); 
+  if(loading) return(<> Loading</>);
+  if(error) return(<>{JSON.stringify(error)}</>)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   <>
+   {JSON.stringify(data)}
+   </>);
 }
 
 export default App;
