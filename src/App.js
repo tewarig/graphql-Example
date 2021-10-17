@@ -32,7 +32,9 @@ function App() {
   const NextPage = () => {
     setPage(page+1);
   }
-
+  const PreviousPage = () => {
+    setPage(page - 1);
+  }
   console.log(data?.Page?.media[0]); 
   if(loading) return(<> Loading</>);
   if(error) return(<>{JSON.stringify(error)}</>)
@@ -54,7 +56,7 @@ function App() {
  </>
    ))}
    <div className="buttonContainer">
-    { page != 1 && <button> Previous Page</button> } 
+    { page != 1 && <button onClick={PreviousPage}> Previous Page</button> } 
      <div className="pageText"> {page}</div>
      <button onClick={NextPage}>  Next Page </button> 
    </div>
